@@ -1,6 +1,6 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QToolBar, QStatusBar, QWidget, QVBoxLayout, QGraphicsView, QGraphicsScene, QCheckBox, QComboBox
-from PyQt6.QtGui import QAction, QIcon
+from PyQt6.QtGui import QAction
 
 class MainWindow(QMainWindow):
     def __init__(self):
