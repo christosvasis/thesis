@@ -87,7 +87,7 @@ class createUI:
         self.setCentralWidget(centralWidget)
 
     def new_file(self):
-        self.statusBar().showMessage("Creating new file...", 2000)
+        self.main_window.statusBar().showMessage("Creating new file...", 1000)
         
     def cut(self):
-        self.statusBar().showMessage("Cut to clipboard", 2000)
+        self.main_window.statusBar().showMessage("Cut to clipboard", 1000)
