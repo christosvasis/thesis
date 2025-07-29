@@ -1,25 +1,4 @@
 #!/usr/bin/env python3
-"""
-OMR Unified Application - Complete solution for multiple choice test management
-
-This application provides a comprehensive toolkit for creating, scanning, and grading 
-optical mark recognition (OMR) tests using standard bubble sheet formats.
-
-Core functionality:
-1. Form Designer: Interactive tool for creating customizable test forms
-2. Scanner: Automated processing of completed answer sheets with computer vision
-3. Grading: Statistical analysis and reporting with export capabilities
-
-Key features:
-- Multi-language support (English and Greek)
-- Professional PDF generation with consistent formatting
-- Advanced bubble detection algorithms for reliable scanning
-- Comprehensive reporting and analytics
-- Batch processing for large student groups
-- Multiple export formats including Excel and CSV
-
-Built by Harold in 2025 - leveraging proven libraries and best practices
-"""
 
 # ============================================================================
 # REQUIRED IMPORTS AND DEPENDENCIES
@@ -65,10 +44,10 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 from reportlab.pdfbase import pdfmetrics               # Font registration and management
 from reportlab.pdfbase.ttfonts import TTFont           # TrueType font support
 
-# PIL - the trusty image manipulation library that's been around forever
+# PIL
 from PIL import Image, ImageDraw                       # Opening, editing, and drawing on images
 
-# PyQt6 - our GUI framework (because tkinter makes everyone cry)
+# PyQt6
 from PyQt6.QtCore import Qt, pyqtSignal, QThread, QPoint              # The core Qt magic
 from PyQt6.QtWidgets import *                                         # Every widget you could want
 from PyQt6.QtGui import QPixmap, QFont, QWheelEvent, QMouseEvent, QPainter, QImage  # Graphics and mouse/keyboard handling
@@ -314,7 +293,7 @@ QCheckBox::indicator{{width:16px;height:16px;border:1px solid {c['input_border']
 QCheckBox::indicator:checked{{background:{c['accent']};color:white}}""".strip()
 
 # ============================================================================
-# HELPER CLASSES (because we're civilized people who organize our code)
+# HELPER CLASSES
 # ============================================================================
 
 class FileManager:
@@ -426,7 +405,7 @@ class TableManager:
         Args:
             table (QTableWidget): The table widget to configure
         """
-        # Basic setup - 6 columns should be enough for anyone
+        # Basic setup
         table.setColumnCount(6)  # Name, ID, Score, Total, Percentage, Grade
         table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)  # Select whole rows (less confusing)
         table.setAlternatingRowColors(True)  # Zebra stripes make it easier to read
@@ -707,7 +686,7 @@ class UIHelpers:
 
 
 # ============================================================================
-# MAKING THE APP SPEAK DIFFERENT LANGUAGES (because the world is big)
+# TRANSLATOR CLASS
 # ============================================================================
 
 class Translator:
@@ -722,7 +701,7 @@ class Translator:
 
     def __init__(self):
         """Set up the translator with English as the default."""
-        self.current_language = 'en'  # Start with English because it's universal
+        self.current_language = 'en'  # Start with English
         self.translations = self._initialize_translations()
 
     def _initialize_translations(self):
@@ -736,7 +715,7 @@ class Translator:
         Returns:
             dict: Big nested dictionary with all the translated text
         """
-        # English translations - this is our master list
+        # English translations
         en = {
             'app_title': 'OMR Unified Application', 'form_validation_valid': 'Form is valid',
             'theme_light_mode': '🌙 Light Mode', 'theme_dark_mode': '🌞 Dark Mode',
@@ -809,7 +788,7 @@ class Translator:
             'export_class_report': '📋 Export Class Report', 'clear_all_results': '🗑️ Clear All Results'
         }
 
-        # Greek translations - for our Greek-speaking friends
+        # Greek translations
         el = {
             'app_title': 'Ενιαία Εφαρμογή OMR', 'form_validation_valid': 'Η φόρμα είναι έγκυρη',
             'theme_light_mode': '🌙 Φωτεινό Θέμα', 'theme_dark_mode': '🌞 Σκοτεινό Θέμα',
@@ -937,7 +916,7 @@ def get_option_letter(index: int) -> str:
     Returns:
         str: The appropriate letter for this option
     """
-    if translator.current_language == 'el':  # Greek gets special treatment
+    if translator.current_language == 'el':
         greek_letters = ['Α', 'Β', 'Γ', 'Δ']
         return greek_letters[index] if index < len(greek_letters) else chr(65 + index)
     else:  # English and everything else uses standard A, B, C, D
@@ -981,7 +960,7 @@ class SignalBlocker:
             widget.blockSignals(False)
 
 # ============================================================================
-# DATA MODELS (the boring but necessary stuff)
+# DATA MODELS
 # ============================================================================
 
 class Question:
@@ -1011,7 +990,7 @@ class Question:
         """
         return {
             'text': self.text,
-            'options': self.options.copy(),  # Copy so we don't mess up the original
+            'options': self.options.copy(),  # Copy so I don't mess up the original
             'correct': self.correct,
             'points': self.points
         }
@@ -1062,7 +1041,7 @@ class Question:
         if self.correct < 0 or self.correct >= len(self.options):
             errors.append("Invalid correct answer index")
         
-        # Points can't be negative (that would be weird)
+        # Points can't be negative
         if self.points < 0:
             errors.append("Points cannot be negative")
             
